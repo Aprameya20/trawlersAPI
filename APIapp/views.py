@@ -54,4 +54,8 @@ def AISDetails(request,pk):
 def FleetDetails(request,pk):
     mmsis = AIS.objects.filter(fleet_id=pk)
     serializer = mmsisSerializer(mmsis, many=True)
-    return Response(serializer.data)
+    final=[]
+    for i in serializer.data:
+        if i.get("mmsi") not in final:
+            final.append(i.get("mmsi"))
+    return Response(final)
