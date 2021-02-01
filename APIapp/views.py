@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from .models import Entry
-from .serializers import EntrySerializer
+from .models import Entry,AIS
+from .serializers import EntrySerializer,mmsisSerializer,AISSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -32,3 +32,19 @@ def EntryDetails(request):
             list.append(serializer.data)
         date += datetime.timedelta(days=1)
     return Response(list)
+
+
+@api_view(["GET"])
+def AISDetails(request,pk):
+    aises = AIS.objects.filter(fleet_id=pk)
+    serializer = AISSerializer(aises, many=True)
+    for i in serializer.data:
+        print(i.get("mmsi"))
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def FleetDetails(request,pk):
+    mmsis = AIS.objects.filter(fleet_id=pk)
+    serializer = mmsisSerializer(mmsis, many=True)
+    return Response(serializer.data)

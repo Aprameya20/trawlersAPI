@@ -7,3 +7,12 @@ class Entry(models.Model):
     flag = models.CharField(max_length=100)
     eez_crossing = models.CharField(max_length=100)
     violation = models.CharField(max_length=100)
+
+
+
+class AIS(models.Model):
+    fleet_id = models.IntegerField()
+    mmsi = models.CharField(max_length=100)
+    timestamp = models.DateTimeField()
+    lat = models.FloatField()
+    lon = models.FloatField()
