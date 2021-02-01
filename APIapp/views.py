@@ -38,9 +38,16 @@ def EntryDetails(request):
 def AISDetails(request,pk):
     aises = AIS.objects.filter(fleet_id=pk)
     serializer = AISSerializer(aises, many=True)
+    final=[]
     for i in serializer.data:
-        print(i.get("mmsi"))
-    return Response(serializer.data)
+        latest=i
+        for j in serializer.data:
+            if (j.get("mmsi")==latest.get("mmsi")):
+                if (j.get("timestamp")>latest.get("timestamp")):
+                    latest=j
+        if latest not in final:
+            final.append(latest)
+    return Response(final)
 
 
 @api_view(["GET"])
