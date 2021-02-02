@@ -16,3 +16,10 @@ class AIS(models.Model):
     timestamp = models.DateTimeField()
     lat = models.FloatField()
     lon = models.FloatField()
+
+class FilesAdmin(models.Model):
+    upload=models.FileField(upload_to='csvfiles',max_length=150,blank=True)
+    title=models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title

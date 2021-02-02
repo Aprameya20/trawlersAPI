@@ -1,10 +1,10 @@
 from django.shortcuts import render
-
-from .models import Entry,AIS
-from .serializers import EntrySerializer,mmsisSerializer,AISSerializer
-
+from django.http import FileResponse
+from .models import Entry,AIS,FilesAdmin
+from .serializers import EntrySerializer,mmsisSerializer,AISSerializer,FileSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets
 # Create your views here.
 import datetime
 
@@ -59,3 +59,16 @@ def FleetDetails(request,pk):
         if i.get("mmsi") not in final:
             final.append(i.get("mmsi"))
     return Response(final)
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = FilesAdmin.objects.all()
+    serializer_class = FileSerializer
+
+def download(request, pk):
+    obj = FilesAdmin.objects.get(id=pk)
+    serializer = FileSerializer(obj)
+    print(serializer.data)
+    filename = obj.upload.path
+    filename=filename[0:64]+"processed"+filename[69:-3]+"kml"
+    response = FileResponse(open(filename, 'rb'))
+    return response

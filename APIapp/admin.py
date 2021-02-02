@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from . models import Entry,AIS
+from . models import Entry,AIS,FilesAdmin
 # Register your models here.
 
 class AISAdmin(admin.ModelAdmin):
@@ -14,3 +14,4 @@ admin.site.unregister(Group)
 
 admin.site.register(Entry)
 admin.site.register(AIS,AISAdmin)
+admin.site.register(FilesAdmin)

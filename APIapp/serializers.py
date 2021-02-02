@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import Entry,AIS
+from . models import Entry,AIS,FilesAdmin
 
 class EntrySerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +19,8 @@ class AISSerializer(serializers.ModelSerializer):
                   'lat',
                   'lon',
                 )
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FilesAdmin
+        fields = ('upload','title')
